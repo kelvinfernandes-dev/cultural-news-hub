@@ -228,9 +228,10 @@ Desenvolvedor Backend com 3 anos de experiência em Python, Django e FastAPI.
 
 **⭐ Se você gostou do projeto, dê uma estrela!**
 
-Made with ❤️ and 🎵 by [Kelvin Fernandes](https://github.com/kelvinfernandes-dev)
+Made with ❤️ and 🎵(Surfaces - Sunday best) by [Kelvin Fernandes](https://github.com/kelvinfernandes-dev)
 
 Aos jovens que aqui chegaram...
 
 </div>
+
 
