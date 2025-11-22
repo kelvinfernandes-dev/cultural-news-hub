@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Cultural News Hub{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', serif;
+        }
+        
+        .washpost-header {
+            border-bottom: 4px solid #000;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-2px);
+            transition: transform 0.2s ease;
+        }
+        
+        .featured-article {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .featured-article img {
+            transition: transform 0.3s ease;
+        }
+        
+        .featured-article:hover img {
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        /* Animação de entrada dos cards */
+        .article-card {
+            animation: fadeIn 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        /* Delay progressivo nos cards (efeito cascata) */
+        .article-card:nth-child(1) { animation-delay: 0.1s; }
+        .article-card:nth-child(2) { animation-delay: 0.2s; }
+        .article-card:nth-child(3) { animation-delay: 0.3s; }
+        .article-card:nth-child(4) { animation-delay: 0.4s; }
+        .article-card:nth-child(5) { animation-delay: 0.5s; }
+        .article-card:nth-child(6) { animation-delay: 0.6s; }
+        .article-card:nth-child(7) { animation-delay: 0.7s; }
+        .article-card:nth-child(8) { animation-delay: 0.8s; }
+        .article-card:nth-child(9) { animation-delay: 0.9s; }
+        
+        /* Animação do botão hover */
+        button, .btn {
+            transition: all 0.3s ease;
+        }
+        
+        button:hover, .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:active, .btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Pulse animation para elementos importantes */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+        
+        /* Shimmer loading effect */
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+        
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-gray-50">
+    
+    <!-- Header -->
+    <!-- Header -->
+    <header class="washpost-header bg-white sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <!-- Desktop Header -->
+            <div class="hidden md:flex items-center justify-between py-4">
+                <!-- Logo -->
+                <div class="flex-1">
+                    <a href="{% url 'news:home' %}" class="text-3xl font-black text-gray-900">
+                        Cultural News Hub
+                    </a>
+                    <p class="text-xs text-gray-500 mt-1">Descobrindo a cultura, uma notícia por vez</p>
+                </div>
+                
+                <!-- Actions -->
+                <div class="flex items-center gap-4">
+                    <button id="randomNewsBtn" class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition font-semibold">
+                        Nova Notícia
+                    </button>
+                    
+                    {% if user.is_authenticated %}
+                        <span class="text-sm text-gray-600">Olá, {{ user.username }}</span>
+                        <a href="{% url 'admin:logout' %}" class="text-sm text-gray-600 hover:text-gray-900">Sair</a>
+                    {% else %}
+                        <a href="{% url 'admin:login' %}" class="text-sm text-gray-600 hover:text-gray-900">Entrar</a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Mobile Header -->
+            <div class="md:hidden py-3">
+                <div class="flex items-center justify-between mb-3">
+                    <a href="{% url 'news:home' %}" class="text-xl font-black text-gray-900">
+                        Cultural News Hub
+                    </a>
+                    <button id="mobileMenuBtn" class="text-gray-700 p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu -->
+                <div id="mobileMenu" class="hidden pb-3 border-t pt-3">
+                    <button id="randomNewsBtnMobile" class="w-full bg-black text-white px-4 py-3 rounded hover:bg-gray-800 transition font-semibold mb-2">
+                         Nova Notícia
+                    </button>
+                    
+                    {% if user.is_authenticated %}
+                        <div class="text-sm text-gray-600 mb-2">Olá, {{ user.username }}</div>
+                        <a href="{% url 'admin:logout' %}" class="block text-sm text-gray-600 hover:text-gray-900 py-2">Sair</a>
+                    {% else %}
+                        <a href="{% url 'admin:login' %}" class="block text-sm text-gray-600 hover:text-gray-900 py-2">Entrar</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% if messages %}
+    <div class="container mx-auto px-4 mt-4">
+        {% for message in messages %}
+        <div class="bg-{% if message.tags == 'success' %}green{% elif message.tags == 'warning' %}yellow{% else %}blue{% endif %}-100 border border-{% if message.tags == 'success' %}green{% elif message.tags == 'warning' %}yellow{% else %}blue{% endif %}-400 text-{% if message.tags == 'success' %}green{% elif message.tags == 'warning' %}yellow{% else %}blue{% endif %}-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span class="block sm:inline">{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-16">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-sm">&copy; 2025 Cultural News Hub. Github: https://github.com/kelvinfernandes-dev</p>
+                <p class="text-xs text-gray-400 mt-2">Projeto realizado - Kelvin Fernandes</p>
+            </div>
+        </div>
+    </footer>
+    
+     <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-sm">
+        <div class="bg-white p-10 rounded-2xl shadow-2xl text-center transform transition-all">
+            <!-- Spinner animado -->
+            <div class="relative w-20 h-20 mx-auto mb-6">
+                <div class="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+                <div class="absolute inset-0 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
+            </div>
+            
+            <!-- Texto com animação de pulso -->
+            <p class="text-xl font-bold text-gray-900 mb-2 animate-pulse">Buscando notícia...</p>
+            <p class="text-sm text-gray-600">Aguarde um momento</p>
+        </div>
+    </div>
+    
+    <script>
+        // Função para buscar notícia aleatória
+        function fetchRandomNews() {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.classList.remove('hidden');
+            
+            fetch('{% url "news:random_news" %}')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('Erro ao buscar notícia: ' + data.error);
+                        overlay.classList.add('hidden');
+                    } else {
+                        setTimeout(() => {
+                            window.location.href = `/article/${data.id}/`;
+                        }, 500);
+                    }
+                })
+                .catch(error => {
+                    alert('Erro ao buscar notícia');
+                    console.error(error);
+                    overlay.classList.add('hidden');
+                });
+        }
+        
+        // Botão desktop
+        document.getElementById('randomNewsBtn').addEventListener('click', fetchRandomNews);
+        
+        // Botão mobile
+        document.getElementById('randomNewsBtnMobile').addEventListener('click', fetchRandomNews);
+        
+        // Toggle mobile menu
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
