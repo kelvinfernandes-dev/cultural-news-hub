@@ -41,15 +41,6 @@ A ideia para esse projeto veio de uma reflexão sobre nosso momento atual com a 
 ### Home - Seletor de Temas
 ![Home](screenshots/home.gif)
 
-### Grid de Notícias
-![Grid](screenshots/seletor.jpg)
-
-### Detalhes da Notícia
-![Detalhes](screenshots/detalhes.jpg)
-
-### Mobile Responsivo
-![Mobile](screenshots/mobile.jpg)
-
 ---
 
 ## Tecnologias Utilizadas
@@ -242,3 +233,4 @@ Made with ❤️ and 🎵 by [Kelvin Fernandes](https://github.com/kelvinfernand
 Aos jovens que aqui chegaram...
 
 </div>
+
