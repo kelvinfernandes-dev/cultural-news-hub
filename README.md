@@ -9,7 +9,7 @@
 
 **Agregador inteligente de notícias culturais | Django + NewsAPI**
 
-[🌐 Vá para o site]([https://cultural-news-hub.onrender.com](https://noticias-culturais.onrender.com/)) • [📝 Reportar Bug](https://github.com/kelvinfernandes-dev/cultural-news-hub/issues)
+[🌐 Vá para o site](https://cultural-news-hub.onrender.com](https://noticias-culturais.onrender.com/)) • [📝 Reportar Bug](https://github.com/kelvinfernandes-dev/cultural-news-hub/issues)
 
 </div>
 
@@ -233,6 +233,7 @@ Made with ❤️ and 🎵(Surfaces - Sunday best) by [Kelvin Fernandes](https://
 Aos jovens que aqui chegaram...
 
 </div>
+
 
 
 
